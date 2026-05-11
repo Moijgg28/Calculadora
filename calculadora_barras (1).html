@@ -7,19 +7,12 @@
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 <meta name="apple-mobile-web-app-title" content="Calculadora" />
-
 <title>Calculadora de Materiales</title>
-
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='40' fill='%230f0f0f'/%3E%3Ccircle cx='96' cy='96' r='52' fill='none' stroke='%23d4a843' stroke-width='14'/%3E%3Ccircle cx='96' cy='96' r='22' fill='%23d4a843'/%3E%3C/svg%3E" />
-
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='40' fill='%230f0f0f'/%3E%3Ccircle cx='96' cy='96' r='52' fill='none' stroke='%23d4a843' stroke-width='14'/%3E%3Ccircle cx='96' cy='96' r='22' fill='%23d4a843'/%3E%3Cline x1='96' y1='20' x2='96' y2='40' stroke='%23d4a843' stroke-width='10' stroke-linecap='round'/%3E%3Cline x1='96' y1='152' x2='96' y2='172' stroke='%23d4a843' stroke-width='10' stroke-linecap='round'/%3E%3Cline x1='20' y1='96' x2='40' y2='96' stroke='%23d4a843' stroke-width='10' stroke-linecap='round'/%3E%3Cline x1='152' y1='96' x2='172' y2='96' stroke='%23d4a843' stroke-width='10' stroke-linecap='round'/%3E%3C/svg%3E" />
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='40' fill='%230f0f0f'/%3E%3Ccircle cx='96' cy='96' r='52' fill='none' stroke='%23d4a843' stroke-width='14'/%3E%3Ccircle cx='96' cy='96' r='22' fill='%23d4a843'/%3E%3Cline x1='96' y1='20' x2='96' y2='40' stroke='%23d4a843' stroke-width='10' stroke-linecap='round'/%3E%3Cline x1='96' y1='152' x2='96' y2='172' stroke='%23d4a843' stroke-width='10' stroke-linecap='round'/%3E%3Cline x1='20' y1='96' x2='40' y2='96' stroke='%23d4a843' stroke-width='10' stroke-linecap='round'/%3E%3Cline x1='152' y1='96' x2='172' y2='96' stroke='%23d4a843' stroke-width='10' stroke-linecap='round'/%3E%3C/svg%3E" />
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
-
 <style>
-  *, *::before, *::after {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
     --bg: #0f0f0f;
@@ -31,6 +24,7 @@
     --text: #f0ede8;
     --text-muted: #888;
     --text-dim: #555;
+    --success: #4ade80;
     --radius: 16px;
     --radius-sm: 10px;
   }
@@ -40,6 +34,8 @@
     background: var(--bg);
     color: var(--text);
     font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
     -webkit-font-smoothing: antialiased;
   }
 
@@ -49,9 +45,7 @@
     min-height: 100dvh;
     max-width: 480px;
     margin: 0 auto;
-    padding: env(safe-area-inset-top, 0)
-             0
-             env(safe-area-inset-bottom, 0);
+    padding: env(safe-area-inset-top, 0) 0 env(safe-area-inset-bottom, 0);
   }
 
   header {
@@ -62,12 +56,14 @@
   header h1 {
     font-size: 22px;
     font-weight: 600;
+    letter-spacing: -0.5px;
+    color: var(--text);
   }
 
   header p {
     font-size: 13px;
     color: var(--text-muted);
-    margin-top: 4px;
+    margin-top: 2px;
   }
 
   .dot {
@@ -77,6 +73,9 @@
     border-radius: 50%;
     background: var(--accent);
     margin-right: 8px;
+    vertical-align: middle;
+    position: relative;
+    top: -1px;
   }
 
   nav {
@@ -88,26 +87,29 @@
     border-bottom: 1px solid var(--border);
   }
 
-  nav::-webkit-scrollbar {
-    display: none;
-  }
+  nav::-webkit-scrollbar { display: none; }
 
   .tab {
     flex-shrink: 0;
     padding: 8px 16px;
-    border-radius: 999px;
+    border-radius: 100px;
     border: 1px solid var(--border);
     background: transparent;
     color: var(--text-muted);
-    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
     font-size: 13px;
-    transition: 0.2s;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
   }
+
+  .tab:hover { border-color: var(--accent); color: var(--text); }
 
   .tab.active {
     background: var(--accent);
-    color: #000;
     border-color: var(--accent);
+    color: #0f0f0f;
     font-weight: 600;
   }
 
@@ -117,21 +119,21 @@
     overflow-y: auto;
   }
 
-  .panel {
-    display: none;
-  }
+  .panel { display: none; animation: fadeIn 0.2s ease; }
+  .panel.active { display: block; }
 
-  .panel.active {
-    display: block;
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 
   .section-title {
     font-size: 11px;
+    font-weight: 600;
     letter-spacing: 1.5px;
     text-transform: uppercase;
     color: var(--text-dim);
     margin-bottom: 1rem;
-    font-weight: 600;
   }
 
   .fields {
@@ -147,39 +149,53 @@
     border-radius: var(--radius-sm);
     padding: 12px 14px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
     gap: 12px;
+    transition: border-color 0.2s;
   }
 
   .field:focus-within {
     border-color: var(--accent);
   }
 
+  .field-label {
+    flex-shrink: 0;
+  }
+
   .field-name {
     font-size: 14px;
     font-weight: 500;
+    color: var(--text);
   }
 
   .field-desc {
     font-size: 11px;
     color: var(--text-muted);
+    margin-top: 1px;
   }
 
   .field input {
-    width: 120px;
     background: transparent;
     border: none;
     outline: none;
     color: var(--text);
-    text-align: right;
-    font-size: 16px;
     font-family: 'DM Mono', monospace;
+    font-size: 16px;
+    font-weight: 500;
+    text-align: right;
+    width: 100px;
+    flex-shrink: 0;
   }
 
   .field input::placeholder {
     color: var(--text-dim);
+    font-weight: 400;
   }
+
+  .field input::-webkit-inner-spin-button,
+  .field input::-webkit-outer-spin-button { -webkit-appearance: none; }
+  .field input[type=number] { -moz-appearance: textfield; }
 
   .results {
     background: var(--surface);
@@ -197,17 +213,23 @@
 
   .result-row {
     display: flex;
+    align-items: center;
     justify-content: space-between;
     padding: 14px 16px;
     border-bottom: 1px solid var(--border);
   }
 
-  .result-row:last-child {
-    border-bottom: none;
-  }
+  .result-row:last-child { border-bottom: none; }
 
   .result-row.main {
     background: var(--accent-dim);
+    border-top: 1px solid var(--border);
+  }
+
+  .result-row.main .result-label { color: var(--text); }
+  .result-row.main .result-val {
+    font-size: 22px;
+    color: var(--accent);
   }
 
   .result-label {
@@ -216,18 +238,27 @@
   }
 
   .result-val {
-    font-size: 16px;
     font-family: 'DM Mono', monospace;
+    font-size: 16px;
     font-weight: 500;
+    color: var(--text);
   }
 
-  .result-row.main .result-val {
-    font-size: 22px;
+  .badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    padding: 2px 7px;
+    border-radius: 100px;
+    background: var(--accent-dim);
     color: var(--accent);
+    margin-left: 6px;
+    vertical-align: middle;
   }
 
   footer {
-    padding: 1rem;
+    padding: 1rem 1.5rem;
     text-align: center;
     font-size: 11px;
     color: var(--text-dim);
@@ -235,12 +266,11 @@
   }
 </style>
 </head>
-
 <body>
 
 <header>
   <h1><span class="dot"></span>Calculadora de materiales</h1>
-  <p>Compatible con iPhone, Android y desktop</p>
+  <p>Calculadora offline </p>
 </header>
 
 <nav>
@@ -251,328 +281,190 @@
 
 <main>
 
-  <!-- HUECO -->
+  <!-- BARRA CON HUECO -->
   <div id="panel-hueco" class="panel active">
-
     <p class="section-title">Datos de entrada</p>
-
     <div class="fields">
-
       <div class="field">
-        <div>
+        <div class="field-label">
           <div class="field-name">ID</div>
           <div class="field-desc">Diámetro interior</div>
         </div>
-
-        <input
-          type="text"
-          id="h-id"
-          placeholder="0"
-          inputmode="decimal"
-          oninput="calcHueco()"
-        />
+        <input type="text" id="h-id" placeholder="0" inputmode="decimal" oninput="validateInput(event); calcHueco()" />
       </div>
-
       <div class="field">
-        <div>
+        <div class="field-label">
           <div class="field-name">OD</div>
           <div class="field-desc">Diámetro exterior</div>
         </div>
-
-        <input
-          type="text"
-          id="h-od"
-          placeholder="0"
-          inputmode="decimal"
-          oninput="calcHueco()"
-        />
+        <input type="text" id="h-od" placeholder="0" inputmode="decimal" oninput="validateInput(event); calcHueco()" />
       </div>
-
       <div class="field">
-        <div>
+        <div class="field-label">
           <div class="field-name">CM</div>
           <div class="field-desc">Centímetros a usar</div>
         </div>
-
-        <input
-          type="text"
-          id="h-cm"
-          placeholder="0"
-          inputmode="decimal"
-          oninput="calcHueco()"
-        />
+        <input type="text" id="h-cm" placeholder="0" inputmode="decimal" oninput="validateInput(event); calcHueco()" />
       </div>
-
     </div>
-
     <p class="section-title">Resultado</p>
-
     <div class="results" id="res-hueco">
       <p class="results-empty">Ingresa los datos para calcular</p>
     </div>
-
   </div>
 
-  <!-- MACIZA -->
+  <!-- BARRA MACIZA -->
   <div id="panel-maciza" class="panel">
-
     <p class="section-title">Datos de entrada</p>
-
     <div class="fields">
-
       <div class="field">
-        <div>
+        <div class="field-label">
           <div class="field-name">OD</div>
           <div class="field-desc">Diámetro exterior</div>
         </div>
-
-        <input
-          type="text"
-          id="m-od"
-          placeholder="0"
-          inputmode="decimal"
-          oninput="calcMaciza()"
-        />
+        <input type="text" id="m-od" placeholder="0" inputmode="decimal" oninput="validateInput(event); calcMaciza()" />
       </div>
-
       <div class="field">
-        <div>
+        <div class="field-label">
           <div class="field-name">CM</div>
           <div class="field-desc">Centímetros a usar</div>
         </div>
-
-        <input
-          type="text"
-          id="m-cm"
-          placeholder="0"
-          inputmode="decimal"
-          oninput="calcMaciza()"
-        />
+        <input type="text" id="m-cm" placeholder="0" inputmode="decimal" oninput="validateInput(event); calcMaciza()" />
       </div>
-
     </div>
-
     <p class="section-title">Resultado</p>
-
     <div class="results" id="res-maciza">
       <p class="results-empty">Ingresa los datos para calcular</p>
     </div>
-
   </div>
 
   <!-- PLANCHA -->
   <div id="panel-plancha" class="panel">
-
     <p class="section-title">Datos de entrada</p>
-
     <div class="fields">
-
       <div class="field">
-        <div>
+        <div class="field-label">
           <div class="field-name">Largo</div>
           <div class="field-desc">en metros</div>
         </div>
-
-        <input
-          type="text"
-          id="p-largo"
-          placeholder="0.00"
-          inputmode="decimal"
-          oninput="calcPlancha()"
-        />
+        <input type="text" id="p-largo" placeholder="0.00" inputmode="decimal" oninput="validateInput(event); calcPlancha()" />
       </div>
-
       <div class="field">
-        <div>
+        <div class="field-label">
           <div class="field-name">Ancho</div>
           <div class="field-desc">en metros</div>
         </div>
-
-        <input
-          type="text"
-          id="p-ancho"
-          placeholder="0.00"
-          inputmode="decimal"
-          oninput="calcPlancha()"
-        />
+        <input type="text" id="p-ancho" placeholder="0.00" inputmode="decimal" oninput="validateInput(event); calcPlancha()" />
       </div>
-
       <div class="field">
-        <div>
+        <div class="field-label">
           <div class="field-name">Altura</div>
           <div class="field-desc">en milímetros</div>
         </div>
-
-        <input
-          type="text"
-          id="p-altura"
-          placeholder="0"
-          inputmode="decimal"
-          oninput="calcPlancha()"
-        />
+        <input type="text" id="p-altura" placeholder="0" inputmode="decimal" oninput="validateInput(event); calcPlancha()" />
       </div>
-
     </div>
-
     <p class="section-title">Resultado</p>
-
     <div class="results" id="res-plancha">
       <p class="results-empty">Ingresa los datos para calcular</p>
     </div>
-
   </div>
 
 </main>
 
-<footer>
-  Calculadora offline · Uso exclusivo para Torca 2004.
-</footer>
+<footer>Torca 2004 C.A. ©</footer>
 
 <script>
-
-  function fmt(n) {
-    return n.toLocaleString('es-VE', {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2
-    });
+  function parseNum(val) {
+    if (!val) return NaN;
+    return parseFloat(val.toString().replace(',', '.'));
   }
 
-  // CONVIERTE "," EN "."
-  function num(id) {
-    const value = document
-      .getElementById(id)
-      .value
-      .replace(',', '.');
+  function validateInput(e) {
+    let val = e.target.value;
+    // Remove anything that's not a digit, comma, or period
+    val = val.replace(/[^\d.,]/g, '');
+    // Replace comma with period for consistency
+    val = val.replace(/,/g, '.');
+    // Allow only one decimal point
+    const parts = val.split('.');
+    if (parts.length > 2) {
+      val = parts[0] + '.' + parts.slice(1).join('');
+    }
+    e.target.value = val;
+  }
 
-    return parseFloat(value);
+  function fmt(n) {
+    return n.toLocaleString('es-VE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   }
 
   function switchTab(tab) {
-
     document.querySelectorAll('.tab').forEach((b, i) => {
-      b.classList.toggle(
-        'active',
-        ['hueco', 'maciza', 'plancha'][i] === tab
-      );
+      b.classList.toggle('active', ['hueco','maciza','plancha'][i] === tab);
     });
-
-    document.querySelectorAll('.panel')
-      .forEach(p => p.classList.remove('active'));
-
-    document
-      .getElementById('panel-' + tab)
-      .classList.add('active');
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('panel-' + tab).classList.add('active');
   }
 
   function renderResults(id, rows) {
-
     const box = document.getElementById(id);
-
     box.innerHTML = rows.map((r, i) => `
       <div class="result-row ${i === rows.length - 1 ? 'main' : ''}">
         <span class="result-label">${r.label}</span>
         <span class="result-val">${r.val}</span>
-      </div>
-    `).join('');
+      </div>`).join('');
   }
 
   function calcHueco() {
-
-    const id = num('h-id');
-    const od = num('h-od');
-    const cm = num('h-cm');
-
+    const id = parseNum(document.getElementById('h-id').value);
+    const od = parseNum(document.getElementById('h-od').value);
+    const cm = parseNum(document.getElementById('h-cm').value);
     const box = document.getElementById('res-hueco');
-
-    if (!id || !od || !cm) {
-      box.innerHTML =
-        '<p class="results-empty">Ingresa los datos para calcular</p>';
-      return;
-    }
-
-    const precioMetro =
-      ((od * od * 6.16 / 1000) -
-      (id * id * 6.16 / 1000)) * 14;
-
-    const precioCm =
-      (cm / 100) * precioMetro;
-
+    if (!id || !od || !cm) { box.innerHTML = '<p class="results-empty">Ingresa los datos para calcular</p>'; return; }
+    const precioMetro = ((od * od * 6.16 / 1000) - (id * id * 6.16 / 1000)) * 14;
+    const precioCm = (cm / 100) * precioMetro;
     renderResults('res-hueco', [
-      {
-        label: 'Precio por metro',
-        val: '$ ' + fmt(precioMetro)
-      },
-      {
-        label: `Precio (${cm} cm a usar)`,
-        val: '$ ' + fmt(precioCm)
-      }
+      { label: 'Precio por metro', val: '$ ' + fmt(precioMetro) },
+      { label: `Precio (${cm} cm a usar)`, val: '$ ' + fmt(precioCm) }
     ]);
   }
 
   function calcMaciza() {
-
-    const od = num('m-od');
-    const cm = num('m-cm');
-
+    const od = parseNum(document.getElementById('m-od').value);
+    const cm = parseNum(document.getElementById('m-cm').value);
     const box = document.getElementById('res-maciza');
-
-    if (!od || !cm) {
-      box.innerHTML =
-        '<p class="results-empty">Ingresa los datos para calcular</p>';
-      return;
-    }
-
-    const precioMetro =
-      (od * od * 6.16 / 1000) * 14;
-
-    const precioCm =
-      (cm / 100) * precioMetro;
-
+    if (!od || !cm) { box.innerHTML = '<p class="results-empty">Ingresa los datos para calcular</p>'; return; }
+    const precioMetro = (od * od * 6.16 / 1000) * 14;
+    const precioCm = (cm / 100) * precioMetro;
     renderResults('res-maciza', [
-      {
-        label: 'Precio por metro',
-        val: '$ ' + fmt(precioMetro)
-      },
-      {
-        label: `Precio (${cm} cm a usar)`,
-        val: '$ ' + fmt(precioCm)
-      }
+      { label: 'Precio por metro', val: '$ ' + fmt(precioMetro) },
+      { label: `Precio (${cm} cm a usar)`, val: '$ ' + fmt(precioCm) }
     ]);
   }
 
   function calcPlancha() {
-
-    const largo = num('p-largo');
-    const ancho = num('p-ancho');
-    const altura = num('p-altura');
-
+    const largo = parseNum(document.getElementById('p-largo').value);
+    const ancho = parseNum(document.getElementById('p-ancho').value);
+    const altura = parseNum(document.getElementById('p-altura').value);
     const box = document.getElementById('res-plancha');
-
-    if (!largo || !ancho || !altura) {
-      box.innerHTML =
-        '<p class="results-empty">Ingresa los datos para calcular</p>';
-      return;
-    }
-
-    const kg =
-      largo * ancho * altura * 8;
-
-    const precio =
-      kg * 9;
-
+    if (!largo || !ancho || !altura) { box.innerHTML = '<p class="results-empty">Ingresa los datos para calcular</p>'; return; }
+    const kg = largo * ancho * altura * 8;
+    const precio = kg * 9;
     renderResults('res-plancha', [
-      {
-        label: 'KG de la plancha',
-        val: fmt(kg) + ' kg'
-      },
-      {
-        label: 'Precio total',
-        val: '$ ' + fmt(precio)
-      }
+      { label: 'KG de la plancha', val: fmt(kg) + ' kg' },
+      { label: 'Precio total', val: '$ ' + fmt(precio) }
     ]);
   }
 
+  // Service Worker registration for offline support
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/Calculadora/sw.js')
+        .then(reg => console.log('SW registered'))
+        .catch(err => console.log('SW registration failed'));
+    });
+  }
 </script>
-
 </body>
 </html>
+
