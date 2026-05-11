@@ -1,7 +1,6 @@
 const CACHE_NAME = 'calculadora-v1';
 const urlsToCache = [
-  '/Calculadora/',
-  '/Calculadora/calculadora_barras.html'
+  '/Calculadora/calculadora_barras%20(1).html'
 ];
 
 // Install event - cache resources
